@@ -284,6 +284,15 @@ function MobileAccordion({
 }
 
 // ── Header ────────────────────────────────────────────────────────────────────
+const useAuth = () => {
+  // Change 'null' to { name: 'John' } to see the "Logged In" state
+  const [user, setUser] = useState<{name: string} | null>(null); 
+  
+  const logout = () => setUser(null);
+  const login = () => setUser({ name: 'John Doe' });
+
+  return { user, logout, login };
+};
 export function Header() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -292,7 +301,8 @@ export function Header() {
   const menuRef = useRef<HTMLElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
-  const isOnline = useOnlineStatus();
+  const { user, logout } = useAuth(); 
+  const isLoggedIn = !!user;
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -467,23 +477,53 @@ export function Header() {
                 </div>
               )}
             </div>
-
             {/* User Status Section */}
-            <div className="relative group cursor-pointer">
-              <Link href={"login"}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${scrolled || mobileOpen ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-white/20"
-                } border`}>
-                <i className="ri-user-line text-xl"></i>
-              </div>
-              </Link> 
-              {/* Status Indicator Badge */}
-              <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
-                {isOnline && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                )}
-                <span className={`relative inline-flex rounded-full h-3.5 w-3.5 border-2 ${scrolled ? 'border-white' : 'border-[#1a1a1a]'
-                  } ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
-              </span>
+            <div className="relative group">
+              {isLoggedIn ? (
+                /* LOGGED IN STATE */
+                <div className="flex items-center gap-2">
+                  <div className="relative cursor-pointer">
+                    {/* User Profile Avatar */}
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                      scrolled || menuOpen ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-gray-200"
+                    } border overflow-hidden`}>
+                     <i className="ri-user-fill text-xl"></i>
+                    </div>
+
+                    {/* Status Indicator Badge (Green because logged in) */}
+                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className={`relative inline-flex rounded-full h-3.5 w-3.5 border-2 ${
+                        scrolled || menuOpen ? 'border-white' : 'border-gray-200'
+                      } bg-green-500`}></span>
+                    </span>
+                  </div>
+
+                  {/* Dropdown on Hover/Click to Logout */}
+                  <button 
+                    onClick={logout}
+                    className="hidden group-hover:block absolute top-12 right-0 bg-white shadow-xl rounded-lg p-2 text-xs font-bold text-red-500 border border-gray-100 whitespace-nowrap"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                /* LOGGED OUT STATE */
+                <Link href="/login">
+                  <div className="relative">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${ scrolled || menuOpen ? "bg-gray-100 text-gray-400 border-gray-200" : "bg-white/10 text-white/50 border-white/10"
+                    } border`}>
+                      <i className="ri-user-line text-xl"></i>
+                    </div>
+                    
+                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
+                      <span className={`relative inline-flex rounded-full h-3.5 w-3.5 border-2 ${
+                        scrolled || menuOpen ? 'border-white' : 'border-[#1a1a1a]'
+                      } bg-red-500`}></span>
+                    </span>
+                  </div>
+                </Link>
+              )}
             </div>
 
             {/* Desktop CTA */}
