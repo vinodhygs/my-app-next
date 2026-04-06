@@ -100,10 +100,10 @@ function DesktopDropdown({
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={`flex items-center gap-1 text-sm font-medium transition-colors ${isActive
-            ? "text-[#4ECDC4]"
-            : scrolled
-              ? "text-gray-800 hover:text-[#4ECDC4]"
-              : "text-white/90 hover:text-[#4ECDC4]"
+          ? "text-[#4ECDC4]"
+          : scrolled
+            ? "text-gray-800 hover:text-[#4ECDC4]"
+            : "text-white/90 hover:text-[#4ECDC4]"
           }`}
       >
         {item.label}
@@ -125,8 +125,8 @@ function DesktopDropdown({
       {/* Dropdown panel */}
       <div
         className={`absolute left-1/2 top-full z-50 mt-3 w-72 -translate-x-1/2 transition-all duration-200 ${open
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-2 pointer-events-none"
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 -translate-y-2 pointer-events-none"
           }`}
       >
         {/* Arrow */}
@@ -150,8 +150,8 @@ function DesktopDropdown({
                 <div>
                   <p
                     className={`text-sm font-semibold ${pathname === sub.href
-                        ? "text-[#4ECDC4]"
-                        : "text-gray-800 group-hover:text-[#4ECDC4]"
+                      ? "text-[#4ECDC4]"
+                      : "text-gray-800 group-hover:text-[#4ECDC4]"
                       }`}
                   >
                     {sub.label}
@@ -221,8 +221,8 @@ function MobileAccordion({
           href={item.href}
           onClick={onClose}
           className={`flex flex-1 items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-colors ${isActive
-              ? "bg-[#4ECDC4]/10 text-[#4ECDC4]"
-              : "text-gray-700 hover:bg-gray-50 hover:text-[#4ECDC4]"
+            ? "bg-[#4ECDC4]/10 text-[#4ECDC4]"
+            : "text-gray-700 hover:bg-gray-50 hover:text-[#4ECDC4]"
             }`}
         >
           {isActive && (
@@ -264,8 +264,8 @@ function MobileAccordion({
               href={sub.href}
               onClick={onClose}
               className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${pathname === sub.href
-                  ? "bg-[#4ECDC4]/10 text-[#4ECDC4] font-medium"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-[#4ECDC4]"
+                ? "bg-[#4ECDC4]/10 text-[#4ECDC4] font-medium"
+                : "text-gray-600 hover:bg-gray-50 hover:text-[#4ECDC4]"
                 }`}
             >
               <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 text-sm">
@@ -291,7 +291,16 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLElement>(null);
 
+  const [isOpen, setIsOpen] = useState(false);
   const isOnline = useOnlineStatus();
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [])
 
 
   useEffect(() => setMounted(true), []);
@@ -328,8 +337,8 @@ export function Header() {
       <header
         ref={menuRef}
         className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${scrolled || mobileOpen
-            ? "bg-white shadow-md border-gray-200"
-            : "bg-white/10 backdrop-blur-sm border-white/10"
+          ? "bg-white shadow-md border-gray-200"
+          : "bg-white/10 backdrop-blur-sm border-white/10"
           }`}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -366,10 +375,10 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={`text-sm font-medium transition-colors ${pathname === item.href
-                      ? "text-[#4ECDC4]"
-                      : scrolled
-                        ? "text-gray-800 hover:text-[#4ECDC4]"
-                        : "text-white/90 hover:text-[#4ECDC4]"
+                    ? "text-[#4ECDC4]"
+                    : scrolled
+                      ? "text-gray-800 hover:text-[#4ECDC4]"
+                      : "text-white/90 hover:text-[#4ECDC4]"
                     }`}
                 >
                   {item.label}
@@ -378,56 +387,114 @@ export function Header() {
             )}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <a
-              href="/contact"
-              className="rounded-full bg-[#4ECDC4] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#45B7B8]"
-            >
-              Book Appointment
-            </a>
-          </div>
-          
-          {/* User & Status Section */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              {/* User Icon Circle */}
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 border border-slate-200">
+          {/* Right Actions: Search + User + CTA */}
+          <div className="flex items-center gap-4 lg:gap-6">
+
+            {/* Search Group */}
+            <div className="flex items-center relative">
+              {/* The Search Form - Slides out to the left */}
+              <div className={`transition-all duration-500 ease-in-out flex items-center ${isOpen ? 'max-w-[300px] opacity-100 mr-2' : 'max-w-0 opacity-0'
+                } overflow-hidden`}>
+                <Form action="/search" className="relative flex items-center">
+                  <input
+                    name="query"
+                    placeholder="Search..."
+                    className="bg-gray-50 border border-gray-200 px-4 py-2 text-sm text-gray-900 rounded-full focus:outline-none focus:ring-2 focus:ring-[#4ECDC4]/50 w-48 lg:w-64"
+                    autoFocus={isOpen}
+                  />
+                </Form>
+              </div>
+
+              {/* Search Toggle Button */}
+              <button
+                onClick={() => setIsOpen(true)}
+                className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 ${scrolled ? "text-gray-600 hover:bg-gray-100" : "text-white hover:bg-white/10"
+                  }`}
+              >
+                <i className="ri-search-line text-xl"></i>
+              </button>
+                {isOpen && (
+                <div className="fixed h-screen inset-0 z-[100] flex items-start justify-center pt-32 px-4">
+                  
+                  <div 
+                    className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity cursor-pointer"
+                    onClick={() => setIsOpen(false)} // This closes the popup
+                  />
+
+                  {/* 2. THE SEARCH BOX */}
+                  <div 
+                    className="relative w-full max-w-2xl transform transition-all"
+                    onClick={(e) => e.stopPropagation()} // This prevents the popup from closing when you click INSIDE the white box
+                  >
+                    <div className="overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5">
+                      <Form action="/search" className="relative flex items-center p-4">
+                        <i className="ri-search-line absolute left-8 text-xl text-gray-400"></i>
+                        <input
+                          name="query"
+                          autoFocus
+                          placeholder="Search for doctors, services, or news..."
+                          className="w-full bg-transparent py-4 pl-12 pr-12 text-lg text-gray-900 focus:outline-none"
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => setIsOpen(false)}
+                          className="absolute right-8 rounded-md bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-500 hover:bg-gray-200"
+                        >
+                          ESC
+                        </button>
+                      </Form>
+
+                      {/* Quick Links Area */}
+                      <div className="border-t border-gray-100 bg-gray-50/50 p-6">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">Popular Searches</h3>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {['Cardiology', 'Emergency', 'Our Team', 'Appointments'].map((tag) => (
+                            <button 
+                              key={tag}
+                              onClick={() => {
+                                // Handle quick search here if needed
+                                setIsOpen(false);
+                              }}
+                              className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm text-gray-600 transition-colors hover:border-[#4ECDC4] hover:text-[#4ECDC4]"
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* User Status Section */}
+            <div className="relative group cursor-pointer">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${scrolled ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-white/20"
+                } border`}>
                 <i className="ri-user-line text-xl"></i>
               </div>
 
               {/* Status Indicator Badge */}
-              <span className="absolute bottom-0 right-0 flex h-3 w-3">
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
                 {isOnline && (
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 )}
-                <span className={`relative inline-flex rounded-full h-3 w-3 border-2 border-white ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}
-                ></span>
+                <span className={`relative inline-flex rounded-full h-3.5 w-3.5 border-2 ${scrolled ? 'border-white' : 'border-[#1a1a1a]'
+                  } ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
               </span>
             </div>
-              {/* Optional Label */}
-              {/* <span className={`bg-white rounded-full px-3 p-1 text-xs font-semibold tracking-wider ${isOnline ? 'text-[#45B7B8]' : 'text-red-600'}`}>
-                {isOnline ? 'Online' : 'Offline'}
-              </span> */}
-          </div>
 
-          {/* search */}
-
-          {/* <div className="hidden md:flex justify-center items-center">
-            <Form action="/search" className=" relative flex items-center w-full max-w-md">
-              <input
-                name="query"
-                placeholder="Search items..."
-                className="bg-white w-[70%] px-4 py-2 text-gray-900 rounded-l-lg focus:ring-0 focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-[#4ECDC4] text-white px-3 py-2 rounded-r-lg hover:bg-[#45B7B8] transition-colors duration-200 font-medium"
+            {/* Desktop CTA */}
+            <div className="hidden lg:block">
+              <Link
+                href="/contact"
+                className="rounded-full bg-[#4ECDC4] px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#4ECDC4]/20 transition-all duration-300 hover:bg-[#45B7B8] hover:-translate-y-0.5 active:translate-y-0"
               >
-                <i className="ri-search-line"></i>
-              </button>
-            </Form>
-          </div>       */}
+                Book Appointment
+              </Link>
+            </div>
+          </div>
 
           {/* Hamburger — mobile only */}
           <button
@@ -468,8 +535,8 @@ export function Header() {
                   style={{ transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms" }}
                   onClick={() => setMenuOpen(false)}
                   className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 ${pathname === item.href
-                      ? "bg-[#4ECDC4]/10 text-[#4ECDC4]"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-[#4ECDC4]"
+                    ? "bg-[#4ECDC4]/10 text-[#4ECDC4]"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-[#4ECDC4]"
                     } ${mobileOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"}`}
                 >
                   {pathname === item.href && (
