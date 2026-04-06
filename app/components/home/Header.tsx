@@ -470,11 +470,12 @@ export function Header() {
 
             {/* User Status Section */}
             <div className="relative group cursor-pointer">
+              <Link href={"login"}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${scrolled ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-white/20"
                 } border`}>
                 <i className="ri-user-line text-xl"></i>
               </div>
-
+              </Link> 
               {/* Status Indicator Badge */}
               <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
                 {isOnline && (
