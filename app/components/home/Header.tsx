@@ -337,7 +337,7 @@ export function Header() {
       <header
         ref={menuRef}
         className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${scrolled || mobileOpen
-          ? "bg-white shadow-md border-gray-200"
+          ? "bg-[#ffffff75] shadow-md border-gray-200"
           : "bg-white/10 backdrop-blur-sm border-white/10"
           }`}
       >
@@ -352,7 +352,7 @@ export function Header() {
                 </span>
               </div>
               <span
-                className={`text-2xl font-bold transition-colors duration-300 ${scrolled || mobileOpen ? "text-black" : "text-white"
+                className={`text-2xl font-bold transition-colors duration-300 ${scrolled || mobileOpen ? "text-white" : "text-white"
                   }`}
               >
                 MedCare
