@@ -337,7 +337,7 @@ export function Header() {
       <header
         ref={menuRef}
         className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${scrolled || mobileOpen
-          ? "bg-[#ffffff75] shadow-md border-gray-200"
+          ? "bg-white shadow-md border-gray-200"
           : "bg-white/10 backdrop-blur-sm border-white/10"
           }`}
       >
@@ -352,7 +352,7 @@ export function Header() {
                 </span>
               </div>
               <span
-                className={`text-2xl font-bold transition-colors duration-300 ${scrolled || mobileOpen ? "text-white" : "text-white"
+                className={`text-2xl font-bold transition-colors duration-300 ${scrolled || mobileOpen ? "text-black" : "text-white"
                   }`}
               >
                 MedCare
@@ -408,7 +408,7 @@ export function Header() {
               {/* Search Toggle Button */}
               <button
                 onClick={() => setIsOpen(true)}
-                className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 ${scrolled ? "text-gray-600 hover:bg-gray-100" : "text-white hover:bg-white/10"
+                className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 ${scrolled || mobileOpen ? "text-gray-600 hover:bg-gray-100" : "text-white hover:bg-white/10"
                   }`}
               >
                 <i className="ri-search-line text-xl"></i>
@@ -471,7 +471,7 @@ export function Header() {
             {/* User Status Section */}
             <div className="relative group cursor-pointer">
               <Link href={"login"}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${scrolled ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-white/20"
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${scrolled || mobileOpen ? "bg-gray-100 text-gray-600 border-gray-200" : "bg-white/10 text-white border-white/20"
                 } border`}>
                 <i className="ri-user-line text-xl"></i>
               </div>
