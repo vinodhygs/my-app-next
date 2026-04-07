@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import Form from 'next/form'
 import { performSearch } from '@/lib/search'; // Import line
 
