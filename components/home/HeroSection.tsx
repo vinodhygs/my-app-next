@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const slides = [
   {
@@ -134,11 +135,13 @@ export function HeroSection() {
             className={`absolute inset-0 transition-opacity duration-700 ${index === activeIndex ? "opacity-100" : "opacity-0"
               }`}
           >
-            <img
-              alt={slide.title}
-              className="h-full w-full object-cover"
-              src={slide.image}
-            />
+            <Image
+                alt={slide.title}
+                width={1200}
+                height={600}
+                className="w-full h-full object-cover"
+                src={slide.image}
+              />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
           </div>
         ))}
