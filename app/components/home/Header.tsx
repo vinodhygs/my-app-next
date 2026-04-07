@@ -284,15 +284,7 @@ function MobileAccordion({
 }
 
 // ── Header ────────────────────────────────────────────────────────────────────
-const useAuth = () => {
-  // Change 'null' to { name: 'John' } to see the "Logged In" state
-  const [user, setUser] = useState<{name: string} | null>(null); 
-  
-  const logout = () => setUser(null);
-  const login = () => setUser({ name: 'John Doe' });
 
-  return { user, logout, login };
-};
 export function Header() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -301,8 +293,12 @@ export function Header() {
   const menuRef = useRef<HTMLElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useAuth(); 
-  const isLoggedIn = !!user;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+  }, []);
+
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -501,10 +497,14 @@ export function Header() {
 
                   {/* Dropdown on Hover/Click to Logout */}
                   <button 
-                    onClick={logout}
-                    className="hidden group-hover:block absolute top-12 right-0 bg-white shadow-xl rounded-lg p-2 text-xs font-bold text-red-500 border border-gray-100 whitespace-nowrap"
+                    onClick={() => {
+                      localStorage.removeItem("isLoggedIn");
+                      location.reload();
+                    }} 
+                    className="cursor-pointer hidden group-hover:flex items-center gap-2 absolute top-[100%] right-0 bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 border border-slate-100 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ease-in-out whitespace-nowrap"
                   >
-                    Logout
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sign Out
                   </button>
                 </div>
               ) : (

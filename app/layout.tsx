@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "./components/home/Header";
 import { Footer } from "./components/home/Footer";
 import BannerController from "./components/BannerController";
-
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 
@@ -42,7 +42,9 @@ export default function RootLayout({
       <body className="min-h-full min-h-screen bg-[#FAF8F5] flex flex-col">
         <Header />
         <BannerController />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <Footer />
       </body>
     </html>

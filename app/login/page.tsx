@@ -1,9 +1,27 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import Signup from '../signup/page';
 
 
 export default function Login() {
+
+  const handleLogin = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (
+      storedUser.email === "test@gmail.com" &&
+      storedUser.password === "1234"
+    ) {
+      localStorage.setItem("isLoggedIn", "true");
+      alert("Login success");
+    } else {
+      alert("Invalid login");
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       {/* Main Container */}
@@ -81,7 +99,7 @@ export default function Login() {
                 <label className="ml-2 text-sm text-gray-600">Remember me for 30 days</label>
               </div>
 
-              <button className="w-full bg-[#4ECDC4] hover:bg-[#45B7B8] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4ECDC4]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+              <button onClick={handleLogin} className="w-full bg-[#4ECDC4] hover:bg-[#45B7B8] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4ECDC4]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
                 Sign In
               </button>
             </form>

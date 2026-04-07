@@ -1,7 +1,20 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 
 export default function Signup() {
+
+  const handleSignup = () => {
+    const user = {
+      email: "test@gmail.com",
+      password: "1234",
+    };
+
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Signup success");
+    };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       {/* Main Container */}
@@ -106,7 +119,7 @@ export default function Signup() {
               </div>
 
               {/* Submit */}
-              <button className="w-full bg-[#4ECDC4] hover:bg-[#45B7B8] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4ECDC4]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 mt-4">
+              <button onClick={handleSignup} className="w-full bg-[#4ECDC4] hover:bg-[#45B7B8] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4ECDC4]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 mt-4">
                 Create My Account
               </button>
             </form>
