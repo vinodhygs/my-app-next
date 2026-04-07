@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import { FacilityTourSection } from "./components/home/FacilityTourSection";
-import { SpecializedServicesSection } from "./components/home/SpecializedServicesSection";
-import { VirtualTour } from "./components/home/VirtualTour";
-import { WhyChooseUsSection } from "./components/home/WhyChooseUsSection";
-import { AboutTabs } from "./components/home/AboutTabs";
-import { Card } from "./components/card/Card";
+import { FacilityTourSection } from "@/components/home/FacilityTourSection";
+import { SpecializedServicesSection } from "@/components/home/SpecializedServicesSection";
+import { VirtualTour } from "@/components/home/VirtualTour";
+import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
+import { AboutTabs } from "@/components/home/AboutTabs";
+import { Card } from "@/components/card/Card";
 
 import { blogs } from "@/data/blog";
 

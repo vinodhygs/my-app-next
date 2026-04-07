@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Header } from "./components/home/Header";
-import { Footer } from "./components/home/Footer";
-import BannerController from "./components/BannerController";
+import { Header } from "@/components/header/Header";
+import { Footer } from "@/components/footer/Footer";
+import BannerController from "@/components/BannerController";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
